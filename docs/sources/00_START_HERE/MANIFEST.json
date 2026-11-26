@@ -1,0 +1,181 @@
+{
+  "package": "IDHN Brand Source Package",
+  "version": "1.0",
+  "files": [
+    {
+      "path": "00_START_HERE/ASSET_NOTE.md",
+      "sha256": "8fdf46355fde5cd48cbe17fe98b815f55b5ca6b1aa1fd7d394cd60ccb37a3fda",
+      "bytes": 544
+    },
+    {
+      "path": "00_START_HERE/README_START_HERE.md",
+      "sha256": "c387087c154ac6565e68050642a1f1fdcd4e306e763560f993e5e03d7b4ffde1",
+      "bytes": 2332
+    },
+    {
+      "path": "01_LOGO/LOGO_USAGE_RULES.md",
+      "sha256": "bcc5c99f15bffc26445e1359e9a6ec0a597df21a2c06adbe7e86b1d70cd32dbd",
+      "bytes": 960
+    },
+    {
+      "path": "01_LOGO/PNG/dark/idhn-horizontal-1600px.png",
+      "sha256": "a21c659744a4f75c2d92a9b39b4558e79e07ad7e2fd938547c6d80293690a939",
+      "bytes": 82942
+    },
+    {
+      "path": "01_LOGO/PNG/light/idhn-symbol-1024px.png",
+      "sha256": "1fcf4885b5f77123b65d57898bff8d5acfbd8eb281871705f9949f721fc48198",
+      "bytes": 127384
+    },
+    {
+      "path": "01_LOGO/PNG/transparent/idhn-app-icon-1024px.png",
+      "sha256": "cbd778b3c830e5ed1fece1d9fa6df9b3226aa435451aa9a54d266c8878131c58",
+      "bytes": 175541
+    },
+    {
+      "path": "01_LOGO/PNG/transparent/idhn-horizontal-1600px.png",
+      "sha256": "9c88d103804522a8b732eeb15b2a4b1030f0113936bf6a58a70395987962cf01",
+      "bytes": 87549
+    },
+    {
+      "path": "01_LOGO/PNG/transparent/idhn-stacked-1400px.png",
+      "sha256": "5791dac086c77888ed60e464cf5fc1192eb1cecdd38aae69e986f28ef9a08d39",
+      "bytes": 70626
+    },
+    {
+      "path": "01_LOGO/PNG/transparent/idhn-symbol-1024px.png",
+      "sha256": "968ea54763cc7913e0f081b64866e3c029defe7d1b833b36e35887ebe658ff17",
+      "bytes": 129324
+    },
+    {
+      "path": "01_LOGO/PNG/transparent/idhn-wordmark-1200px.png",
+      "sha256": "1f19ee065e7bc4b815e2ff558fe43378968349e450c5e88df3212c36f49e2d2d",
+      "bytes": 13060
+    },
+    {
+      "path": "01_LOGO/SVG/idhn-app-icon.svg",
+      "sha256": "11805f61f1c71e366babd4a11ceabfa9b9b231706c956cbfc87b3f1d54c40aa2",
+      "bytes": 2271
+    },
+    {
+      "path": "01_LOGO/SVG/idhn-horizontal-dark-bg-outlined.svg",
+      "sha256": "eb1784623b483e6ebabbafe29e4614d1cbacbc59a9cde299ca3af9653511e77d",
+      "bytes": 7042
+    },
+    {
+      "path": "01_LOGO/SVG/idhn-horizontal-dark-bg.svg",
+      "sha256": "b7db2a297738cfc3a83cfec42cfab9f974a9d50dbd99a8a24450a59d0da26a04",
+      "bytes": 2366
+    },
+    {
+      "path": "01_LOGO/SVG/idhn-horizontal-outlined.svg",
+      "sha256": "f5287bd8733b2f61d1a18489e706ec5d76571cd75cfc7e987d248a7105f139be",
+      "bytes": 6950
+    },
+    {
+      "path": "01_LOGO/SVG/idhn-horizontal.svg",
+      "sha256": "7fb0eb9c8f606b1521f5e1320916f3faa00524a285b93d1c9dec8410995fda0b",
+      "bytes": 2318
+    },
+    {
+      "path": "01_LOGO/SVG/idhn-stacked-outlined.svg",
+      "sha256": "9f56bcac5f2d1dbe4125945e92c351649d812c43bf769c9bef84ab10aae172e9",
+      "bytes": 6899
+    },
+    {
+      "path": "01_LOGO/SVG/idhn-stacked.svg",
+      "sha256": "212c280ba977e7258b6a242ad06fd1e46449891dbfa67bccba1370de400f994c",
+      "bytes": 2341
+    },
+    {
+      "path": "01_LOGO/SVG/idhn-symbol-master.svg",
+      "sha256": "f2f5dbe6b649f7e29e1d038d7a8a8e472cda8573a7ad76a7fdc0f9bafbd11109",
+      "bytes": 1936
+    },
+    {
+      "path": "01_LOGO/SVG/idhn-symbol-monochrome-black.svg",
+      "sha256": "8a4cecf773b3cc2f34a0c8896ce7fa9bc97fc81c12b737dfa190ba8c98ecfaba",
+      "bytes": 568
+    },
+    {
+      "path": "01_LOGO/SVG/idhn-symbol-monochrome-white.svg",
+      "sha256": "48bbe6c958f8d51af1d8b26eeff29b8d4c7d5f9061c374b237cc0e809ccd02e3",
+      "bytes": 615
+    },
+    {
+      "path": "01_LOGO/SVG/idhn-symbol-on-white.svg",
+      "sha256": "0752cf8c399f4fb731188049f643248bac29a0c1589bbb8cb02b2ba6b2733a45",
+      "bytes": 1983
+    },
+    {
+      "path": "01_LOGO/SVG/idhn-wordmark-outlined.svg",
+      "sha256": "73ecc47b941300a31ee32254307b57577fefd40d0925fce988568a83e558844c",
+      "bytes": 3577
+    },
+    {
+      "path": "01_LOGO/SVG/idhn-wordmark.svg",
+      "sha256": "9225a398faaf23bccbadc7ac652eb109b6e2aab77e88b73a50fe8fb440efedbf",
+      "bytes": 425
+    },
+    {
+      "path": "02_DESIGN_SYSTEM/IDHN_Visual_Identity_and_Design_System_v1.md",
+      "sha256": "a85cc1d0d63318282056cf9a3625b7a371a78301b0a8bf5aad60344674452fa3",
+      "bytes": 7080
+    },
+    {
+      "path": "02_DESIGN_SYSTEM/specs/UI_UX_PRODUCTION_RULES.md",
+      "sha256": "1dfeaefd4d759d2d8049c2de2b42f86a3d01c68cd8d813273bcb2eb5b120f4bd",
+      "bytes": 2309
+    },
+    {
+      "path": "02_DESIGN_SYSTEM/tokens/css-variables.css",
+      "sha256": "138ab9ff294bdf92f0158cbdf702360715d0e71d664bed7faba0ba2617f3bb14",
+      "bytes": 1286
+    },
+    {
+      "path": "02_DESIGN_SYSTEM/tokens/design-tokens.json",
+      "sha256": "9a24a52d1420d16193da533c9ee7c794f91547b7d7b35dd0a2f4d3664302d29a",
+      "bytes": 3166
+    },
+    {
+      "path": "02_DESIGN_SYSTEM/tokens/figma-variables.json",
+      "sha256": "11f63b8529d15a1f744e45b06d99590c137fa752c301d99e79e0a01467a8f2f5",
+      "bytes": 4710
+    },
+    {
+      "path": "03_VISUAL_LANGUAGE/Motion_and_Graphic_Language.md",
+      "sha256": "696ef687cadf741c1d23d12f1c963b6567f4debad5dc82e8aeff4a88e6fb4081",
+      "bytes": 1542
+    },
+    {
+      "path": "04_REFERENCE_APPROVED/Approved_Identity_Board_Light.png",
+      "sha256": "207727d94c7cd161bb65df823d7959e8cc4aadf2bd7ee21ce0c7db7bbe682b33",
+      "bytes": 1729581
+    },
+    {
+      "path": "04_REFERENCE_APPROVED/Approved_Visual_Language_and_Motion.png",
+      "sha256": "55b3bb8aa731eb3b879d26e3bf1a6345130e591659e641cf67bbf7e43f0223de",
+      "bytes": 1496360
+    },
+    {
+      "path": "04_REFERENCE_APPROVED/Color_Exploration_Reference.png",
+      "sha256": "2bb10e5ed0529b4084d236edfc979b26d4aabfd2a00fd867ba107e9ad9ffe704",
+      "bytes": 1700244
+    },
+    {
+      "path": "05_SOURCE_RULES/LegalTech_Creative_UI_Direction_and_Design_Rules_v1.md",
+      "sha256": "8a745007104cf8345253d5f6dca78cbb1db6b3e6360ef624c055d6018d158fc1",
+      "bytes": 30127
+    },
+    {
+      "path": "06_IMPLEMENTATION/FRONTEND_HANDOFF.md",
+      "sha256": "b9cebec1f594d0a04ede1d9e842ad50c643f58b107cead0d409bff8f093c15a8",
+      "bytes": 1201
+    },
+    {
+      "path": "06_IMPLEMENTATION/tailwind-theme.ts",
+      "sha256": "7570dfef8298a12b43d7a99dbae49055edac581079d578c66357fa4a79e67c0a",
+      "bytes": 657
+    }
+  ]
+}

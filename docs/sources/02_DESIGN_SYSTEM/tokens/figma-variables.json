@@ -1,0 +1,217 @@
+{
+  "collections": [
+    {
+      "name": "IDHN — Core",
+      "modes": [
+        "Light"
+      ],
+      "variables": [
+        {
+          "name": "color/brand/obsidian",
+          "type": "COLOR",
+          "value": "#0B0B10"
+        },
+        {
+          "name": "color/brand/charcoal",
+          "type": "COLOR",
+          "value": "#1A1B22"
+        },
+        {
+          "name": "color/brand/royal_purple",
+          "type": "COLOR",
+          "value": "#6A3DF7"
+        },
+        {
+          "name": "color/brand/stone_purple",
+          "type": "COLOR",
+          "value": "#A89BC8"
+        },
+        {
+          "name": "color/brand/soft_stone",
+          "type": "COLOR",
+          "value": "#E7E5ED"
+        },
+        {
+          "name": "color/brand/white",
+          "type": "COLOR",
+          "value": "#F6F5F8"
+        },
+        {
+          "name": "color/canvas/base",
+          "type": "COLOR",
+          "value": "#FFFFFF"
+        },
+        {
+          "name": "color/canvas/soft",
+          "type": "COLOR",
+          "value": "#FBFAFE"
+        },
+        {
+          "name": "color/canvas/lavender_50",
+          "type": "COLOR",
+          "value": "#F8F5FF"
+        },
+        {
+          "name": "color/canvas/lavender_100",
+          "type": "COLOR",
+          "value": "#F1ECFF"
+        },
+        {
+          "name": "color/content/primary",
+          "type": "COLOR",
+          "value": "#0B0B10"
+        },
+        {
+          "name": "color/content/secondary",
+          "type": "COLOR",
+          "value": "#454451"
+        },
+        {
+          "name": "color/content/muted",
+          "type": "COLOR",
+          "value": "#747181"
+        },
+        {
+          "name": "color/content/inverse",
+          "type": "COLOR",
+          "value": "#FFFFFF"
+        },
+        {
+          "name": "color/border/subtle",
+          "type": "COLOR",
+          "value": "#E8E4EF"
+        },
+        {
+          "name": "color/border/default",
+          "type": "COLOR",
+          "value": "#D9D3E4"
+        },
+        {
+          "name": "color/border/strong",
+          "type": "COLOR",
+          "value": "#B7AEC7"
+        },
+        {
+          "name": "color/semantic/allowed",
+          "type": "COLOR",
+          "value": "#16835D"
+        },
+        {
+          "name": "color/semantic/review",
+          "type": "COLOR",
+          "value": "#B96B00"
+        },
+        {
+          "name": "color/semantic/blocked",
+          "type": "COLOR",
+          "value": "#C83C45"
+        },
+        {
+          "name": "color/semantic/info",
+          "type": "COLOR",
+          "value": "#3566C8"
+        },
+        {
+          "name": "color/focus/ring",
+          "type": "COLOR",
+          "value": "#7650F6"
+        },
+        {
+          "name": "color/copper/signal",
+          "type": "COLOR",
+          "value": "#D69572"
+        },
+        {
+          "name": "color/copper/signal_light",
+          "type": "COLOR",
+          "value": "#F1C4AA"
+        },
+        {
+          "name": "space/1",
+          "type": "FLOAT",
+          "value": 4
+        },
+        {
+          "name": "space/2",
+          "type": "FLOAT",
+          "value": 8
+        },
+        {
+          "name": "space/3",
+          "type": "FLOAT",
+          "value": 12
+        },
+        {
+          "name": "space/4",
+          "type": "FLOAT",
+          "value": 16
+        },
+        {
+          "name": "space/5",
+          "type": "FLOAT",
+          "value": 20
+        },
+        {
+          "name": "space/6",
+          "type": "FLOAT",
+          "value": 24
+        },
+        {
+          "name": "space/8",
+          "type": "FLOAT",
+          "value": 32
+        },
+        {
+          "name": "space/10",
+          "type": "FLOAT",
+          "value": 40
+        },
+        {
+          "name": "space/12",
+          "type": "FLOAT",
+          "value": 48
+        },
+        {
+          "name": "space/16",
+          "type": "FLOAT",
+          "value": 64
+        },
+        {
+          "name": "space/20",
+          "type": "FLOAT",
+          "value": 80
+        },
+        {
+          "name": "radius/xs",
+          "type": "FLOAT",
+          "value": 6
+        },
+        {
+          "name": "radius/sm",
+          "type": "FLOAT",
+          "value": 10
+        },
+        {
+          "name": "radius/md",
+          "type": "FLOAT",
+          "value": 14
+        },
+        {
+          "name": "radius/lg",
+          "type": "FLOAT",
+          "value": 20
+        },
+        {
+          "name": "radius/xl",
+          "type": "FLOAT",
+          "value": 28
+        },
+        {
+          "name": "radius/pill",
+          "type": "FLOAT",
+          "value": 999
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,157 @@
+{
+  "meta": {
+    "name": "إذن / ITHN",
+    "version": "1.0",
+    "status": "Approved source package",
+    "date": "2026-11-25",
+    "direction": "Arabic-first / RTL"
+  },
+  "color": {
+    "brand": {
+      "obsidian": "#0B0B10",
+      "charcoal": "#1A1B22",
+      "royal_purple": "#6A3DF7",
+      "stone_purple": "#A89BC8",
+      "soft_stone": "#E7E5ED",
+      "white": "#F6F5F8"
+    },
+    "canvas": {
+      "base": "#FFFFFF",
+      "soft": "#FBFAFE",
+      "lavender_50": "#F8F5FF",
+      "lavender_100": "#F1ECFF"
+    },
+    "content": {
+      "primary": "#0B0B10",
+      "secondary": "#454451",
+      "muted": "#747181",
+      "inverse": "#FFFFFF"
+    },
+    "border": {
+      "subtle": "#E8E4EF",
+      "default": "#D9D3E4",
+      "strong": "#B7AEC7"
+    },
+    "semantic": {
+      "allowed": "#16835D",
+      "review": "#B96B00",
+      "blocked": "#C83C45",
+      "info": "#3566C8"
+    },
+    "focus": {
+      "ring": "#7650F6"
+    },
+    "copper": {
+      "signal": "#D69572",
+      "signal_light": "#F1C4AA"
+    }
+  },
+  "gradient": {
+    "canvas": "linear-gradient(135deg,#FFFFFF 0%,#FBFAFE 50%,#F1ECFF 100%)",
+    "brand": "linear-gradient(135deg,#4D24D9 0%,#6A3DF7 55%,#A89BC8 100%)",
+    "verification": "linear-gradient(90deg,#A89BC8 0%,#6A3DF7 60%,#D69572 100%)"
+  },
+  "radius": {
+    "xs": 6,
+    "sm": 10,
+    "md": 14,
+    "lg": 20,
+    "xl": 28,
+    "pill": 999
+  },
+  "spacing": {
+    "1": 4,
+    "2": 8,
+    "3": 12,
+    "4": 16,
+    "5": 20,
+    "6": 24,
+    "8": 32,
+    "10": 40,
+    "12": 48,
+    "16": 64,
+    "20": 80
+  },
+  "shadow": {
+    "surface": "0 8px 28px rgba(23,18,44,.08)",
+    "floating": "0 18px 60px rgba(39,23,79,.16)",
+    "focus": "0 0 0 3px rgba(106,61,247,.24)"
+  },
+  "typography": {
+    "arabic_ui": {
+      "family": "Cairo",
+      "weights": [
+        400,
+        500,
+        600,
+        700
+      ]
+    },
+    "arabic_longform": {
+      "family": "Markazi Text",
+      "weights": [
+        400,
+        500,
+        600
+      ]
+    },
+    "latin_ui": {
+      "family": "Inter",
+      "weights": [
+        400,
+        500,
+        600,
+        700
+      ]
+    },
+    "technical": {
+      "family": "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
+    },
+    "scale": {
+      "display": 56,
+      "h1": 40,
+      "h2": 32,
+      "h3": 24,
+      "body_lg": 18,
+      "body": 16,
+      "small": 14,
+      "caption": 12
+    }
+  },
+  "motion": {
+    "instant_ms": 120,
+    "micro_ms": 160,
+    "workspace_ms": 260,
+    "panel_ms": 320,
+    "signature_ms": 700,
+    "easing": {
+      "standard": "cubic-bezier(.2,.8,.2,1)",
+      "enter": "cubic-bezier(.16,1,.3,1)",
+      "exit": "cubic-bezier(.4,0,1,1)"
+    },
+    "signature": [
+      "Content In",
+      "Verification",
+      "Permission Check",
+      "Decision"
+    ],
+    "reduced_motion": "Remove travel/parallax; keep state changes instantaneous or <=120ms."
+  },
+  "layout": {
+    "content_max": 1440,
+    "reading_max": 760,
+    "workspace_gutter": 32,
+    "mobile_gutter": 16
+  },
+  "states": [
+    "empty",
+    "loading",
+    "success",
+    "no-match",
+    "authorized",
+    "unauthorized",
+    "needs-review",
+    "error",
+    "offline"
+  ]
+}

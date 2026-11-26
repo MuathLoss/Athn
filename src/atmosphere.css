@@ -1,0 +1,51 @@
+:root {
+  --background: #fff;
+  --canvas-edge: #faf7fe;
+  --surface-line: #e7e0ef;
+}
+body {
+  background: linear-gradient(115deg, #fff 38%, var(--canvas-edge) 140%);
+}
+.workspace {
+  position: relative;
+  isolation: isolate;
+  padding-block: clamp(1.35rem, 3vw, 2.6rem) 3rem;
+}
+.workspace::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  inset: 0 0 auto;
+  height: 11rem;
+  background:
+    radial-gradient(circle at 19% 72%, #dfd1ee 0 2px, transparent 3px),
+    radial-gradient(circle at 29% 72%, #dfd1ee 0 2px, transparent 3px),
+    linear-gradient(90deg, #e4daef, transparent) 0 72% / 37% 1px no-repeat,
+    linear-gradient(95deg, #f7f1fc, transparent 55%);
+  opacity: .66;
+}
+.workspace .page-heading {
+  border-block-end: 1px solid var(--surface-line);
+  padding-block-end: clamp(.75rem, 2vw, 1.35rem);
+}
+.workspace .page-heading h1 { font-size: clamp(1.85rem, 4vw, 3.25rem); }
+.workspace .filter-bar { padding-block: .7rem; border-block-end: 1px solid var(--surface-line); }
+.workspace .decision-context { background: linear-gradient(135deg, #fff, #fbf8fe); }
+.workspace .attention { box-shadow: 5px 5px 0 #f5effa; }
+.hero { padding-block: clamp(1.75rem, 4.3vw, 4rem) clamp(1.35rem, 3vw, 2.75rem); }
+.hero h1 { font-size: clamp(2.7rem, 5.5vw, 5.8rem); }
+.hero-figure { background: linear-gradient(145deg, #f6effb, #e9e0f4); color: #34234f; border-color: #e3d7ee; box-shadow: 7px 7px 0 #f8f3fb; }
+.figure-head { color: #50356e; }
+.art-back { background: #e2d7ee; }
+.art-middle { background: #c7b5dd; }
+.art-signal { background: linear-gradient(90deg, #8871a6, #fff); }
+.participant-strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin: 0 0 2rem; padding: 1rem; background: #faf7fd; border-block: 1px solid #eee6f5; }
+.participant-strip dt { font-weight: 780; font-size: .95rem; }
+.participant-strip dd { margin: .25rem 0 0; color: var(--muted); }
+@media (max-width: 690px) {
+  .workspace::before { opacity: .35; height: 8rem; }
+  .workspace .page-heading { margin-block-end: 1.05rem; }
+  .participant-strip { grid-template-columns: 1fr; }
+  .hero-figure figcaption { font-size: .75rem; gap: .28rem; }
+}

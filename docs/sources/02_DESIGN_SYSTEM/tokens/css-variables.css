@@ -1,0 +1,30 @@
+/* IDHN / إذن — approved tokens v1.0 */
+:root {
+  --idhn-obsidian: #0B0B10;
+  --idhn-charcoal: #1A1B22;
+  --idhn-purple: #6A3DF7;
+  --idhn-stone-purple: #A89BC8;
+  --idhn-soft-stone: #E7E5ED;
+  --idhn-canvas: #FFFFFF;
+  --idhn-canvas-soft: #FBFAFE;
+  --idhn-border: #D9D3E4;
+  --idhn-allowed: #16835D;
+  --idhn-review: #B96B00;
+  --idhn-blocked: #C83C45;
+  --idhn-signal: #D69572;
+  --idhn-gradient-canvas: linear-gradient(135deg,#FFFFFF 0%,#FBFAFE 50%,#F1ECFF 100%);
+  --idhn-gradient-brand: linear-gradient(135deg,#4D24D9 0%,#6A3DF7 55%,#A89BC8 100%);
+  --idhn-font-ar: "Cairo", system-ui, sans-serif;
+  --idhn-font-ar-long: "Markazi Text", serif;
+  --idhn-font-latin: "Inter", system-ui, sans-serif;
+  --idhn-ease: cubic-bezier(.2,.8,.2,1);
+  --idhn-motion-micro: 160ms;
+  --idhn-motion-workspace: 260ms;
+  --idhn-radius-sm: 10px;
+  --idhn-radius-md: 14px;
+  --idhn-radius-lg: 20px;
+}
+html { direction: rtl; }
+body { background: var(--idhn-gradient-canvas); color: var(--idhn-obsidian); font-family: var(--idhn-font-ar); }
+:focus-visible { outline: 3px solid rgba(106,61,247,.28); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration:.01ms!important; transition-duration:.01ms!important; scroll-behavior:auto!important; } }

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="520" viewBox="0 0 640 520"><rect width="640" height="520" fill="#0B0B10"/>
+      <g transform="translate(90 65)" fill="none" stroke="#FFFFFF" stroke-width="18" stroke-linejoin="round">
+        <rect x="28" y="4" width="260" height="330" rx="34" transform="skewY(-8)"/>
+        <rect x="258" y="22" width="252" height="330" rx="34" transform="skewY(-8)"/>
+        <line x1="68" y1="205" x2="456" y2="205" stroke-width="10" stroke-linecap="round"/>
+        <rect x="242" y="171" width="68" height="68" rx="15" fill="#FFFFFF" stroke="none"/>
+      </g></svg>

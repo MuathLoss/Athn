@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520">
+<defs>
+  <linearGradient id="purple" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4D24D9"/><stop offset="0.55" stop-color="#6A3DF7"/><stop offset="1" stop-color="#8F73FF"/></linearGradient>
+  <linearGradient id="violetDark" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#312066"/><stop offset="1" stop-color="#171526"/></linearGradient>
+  <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".82"/><stop offset=".55" stop-color="#D9D1F0" stop-opacity=".46"/><stop offset="1" stop-color="#A89BC8" stop-opacity=".62"/></linearGradient>
+  <linearGradient id="signal" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#F3C9B1"/><stop offset=".5" stop-color="#D69572"/><stop offset="1" stop-color="#F3C9B1"/></linearGradient>
+  <filter id="shadow" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#2D174F" flood-opacity=".20"/></filter>
+  <filter id="nodeShadow" x="-80%" y="-80%" width="260%" height="260%"><feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#8D4C2A" flood-opacity=".24"/></filter>
+</defs><g id="idhn-symbol" transform="scale(.72) translate(-35 55)">
+      <g transform="translate(90 65)">
+        <rect x="28" y="4" width="260" height="330" rx="34" fill="url(#purple)" transform="skewY(-8)"/>
+        <rect x="145" y="58" width="248" height="330" rx="34" fill="url(#violetDark)" opacity=".92" transform="skewY(-8)"/>
+        <rect x="258" y="22" width="252" height="330" rx="34" fill="url(#glass)" stroke="#FFFFFF" stroke-opacity=".76" stroke-width="4" transform="skewY(-8)"/>
+        <line x1="68" y1="205" x2="456" y2="205" stroke="url(#signal)" stroke-width="10" stroke-linecap="round"/>
+        <rect x="242" y="171" width="68" height="68" rx="15" fill="#F8D3BD" stroke="#FFFFFF" stroke-width="4"/>
+      </g>
+    </g><g transform="translate(470 70)" text-anchor="middle">
+        <text x="190" y="115" direction="rtl" font-family="Noto Sans Arabic,Cairo,sans-serif" font-size="96" font-weight="700" fill="#0B0B10">إذن</text>
+        <text x="190" y="190" font-family="Inter,sans-serif" font-size="54" font-weight="700" letter-spacing="16" fill="#0B0B10">ITHN</text>
+      </g></svg>
