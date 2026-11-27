@@ -1,0 +1,9 @@
+{
+    "model": "SSCD Disc Mixup",
+    "top_k": 5,
+    "review_threshold": 0.4,
+    "high_similarity_threshold": 0.85,
+    "geometric_similarity_threshold": 0.45,
+    "min_inliers": 12,
+    "min_inlier_ratio": 0.5
+}

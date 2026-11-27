@@ -1,17 +1,23 @@
-# Dataset and model
+# Dataset and model assets
 
-The original image collection is [Amazon Berkeley Objects (ABO)](https://amazon-berkeley-objects.s3.amazonaws.com/index.html), a dataset from Amazon and UC Berkeley, licensed CC BY 4.0. Cite Collins et al., *ABO: Dataset and Benchmarks for Real-World 3D Object Understanding*, CVPR 2022. The ATHN research subset selects and transforms source photographs; attribution and applicable license notices must accompany redistribution. See [external assets](EXTERNAL_ASSETS.md) for storage.
+ATHN uses the Amazon Berkeley Objects (ABO) dataset. The research corpus was assembled from product listings and small images. ABO is distributed under CC BY 4.0; preserve attribution and the dataset's original license. See the [ABO project](https://amazon-berkeley-objects.github.io/) and [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 
-| Category | Prepared images |
+| Category | Images |
 | --- | ---: |
 | Reference | 5,000 |
-| Same-product candidates | 5,000 |
-| Unrelated-product candidates | 20,000 |
-| Synthetic manipulated copies | 25,000 |
+| Same_Product | 5,000 |
+| Unrelated | 20,000 |
+| Manipulated | 25,000 |
 | Total | 55,000 |
 
-The 50,000 query images were split 40/60 by source/product into 20,000 calibration and 30,000 held-out queries. All 5,000 reference vectors were indexed. Five synthetic manipulation families include compression/color, rotation/mirroring, crop, overlay and combined changes. pHash and geometric screening identified potentially noisy candidate negatives; a limited stratified audit did not establish population false-positive rates.
+Five synthetic manipulation types were generated from reference photographs. Product/source-based splitting produced 20,000 calibration and 30,000 held-out queries. The 15,000 held-out manipulated queries are the basis of the reported manipulation metrics.
 
-The model is pretrained SSCD Disc Mixup, from [Meta SSCD copy detection](https://github.com/facebookresearch/sscd-copy-detection). Obtain model weights from the authorized archive or original provider and check the upstream code/checkpoint license before redistributing. ATHN did not train SSCD from scratch.
+The model is pretrained Meta SSCD Disc Mixup ([SSCD repository](https://github.com/facebookresearch/sscd-copy-detection)); model weights and their terms remain separate from ATHN's source license.
 
-No full dataset, images, or weights are included in Git. Original study manifests and per-image results are retained privately.
+The full assets are stored in the authorized [ATHN Google Drive folder](https://drive.google.com/drive/folders/1LRAvdL-bINHn_J3GLlWBMCYhTVNmJtwE). The original `Notebooks/ATHN_AI_Development.ipynb` with outputs, Python export, raw results, all dataset categories and precomputed embeddings are available there. Do not publish private runtime records or user-uploaded evidence.
+
+The repository contains an IPython/Colab source export and aggregate performance table, not the large raw artifacts. The research source includes Colab-specific shell commands and Drive paths and is not part of the application runtime.
+
+## Evaluation limitations
+
+Candidate negatives are not independently established ground truth: products may reuse the same photograph, templates or visual elements. The negative audit was stratified and left many uncertain examples. Do not claim the escalation rate as a false-positive rate or the retrieval rate as overall legal accuracy. A detected match is a review signal, not a legal determination.

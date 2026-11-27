@@ -1,38 +1,36 @@
-# JavaScript
+# Generated frontend files
 node_modules/
 dist/
 playwright-report/
 test-results/
+.vscode/mcp.json
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
 *.local
+
 # Python
 .venv/
 venv/
 __pycache__/
 *.py[cod]
 .pytest_cache/
-# Local secrets and editor configuration
-.env
-.env.*
-!.env.example
-.vscode/mcp.json
-# Private / large runtime and research artifacts
+
+# Private / external runtime and large artifacts
 ATHN_runtime/
 Dataset/
 Embeddings/
 Models/
 MetaData/
 Evidence/
-*.pt
-*.pth
 *.db
 *.db-*
 *.sqlite
 *.sqlite3
+*.pt
+*.pth
 *.zip
-*.tar
-*.tar.gz
-*.ipynb
-.ipynb_checkpoints/
-*_backup.py
-backend_before_*.py
+*backup*.py
 finish_integration.py

@@ -1,11 +1,12 @@
-import os
 import json
 import cv2
 import torch
 import numpy as np
 import torch.nn.functional as F
 
-from database import BASE, connect, initialize
+from database import connect, initialize, BASE
+from config import ALLOWED_ORIGINS
+from portal_auth import require_user
 from registration import (
     initialize_registration,
     save_registration,
@@ -13,12 +14,11 @@ from registration import (
 )
 
 from contextlib import closing
-from pathlib import Path
 from io import BytesIO
 from PIL import Image
 from torchvision import transforms
 from fastapi import FastAPI, UploadFile, File, Form, Request, HTTPException
-from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 DATA = BASE / "Dataset"
@@ -242,17 +242,50 @@ app = FastAPI(title="ATHN API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[origin.strip() for origin in os.environ.get("ATHN_ALLOWED_ORIGINS", "http://127.0.0.1:5173,http://localhost:5173").split(",") if origin.strip()],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
 )
 
-app.mount(
-    "/images",
-    StaticFiles(directory=DATA / "Reference"),
-    name="images"
-)
+# Reject cross-origin state changes outside the explicitly configured frontend.
+@app.middleware("http")
+async def check_origin(request: Request, call_next):
+    origin = request.headers.get("origin")
+    if (request.method not in {"GET", "HEAD", "OPTIONS"}
+            and origin and origin.rstrip("/") not in ALLOWED_ORIGINS):
+        return JSONResponse({"detail": "Origin not allowed"}, status_code=403)
+    return await call_next(request)
+
+
+# Restrict reference images to the rights holder, reviewer or involved seller.
+@app.get("/images/{path:path}", name="images")
+def reference_image(path: str, request: Request):
+    user = require_user(request)
+    reference_root = (DATA / "Reference").resolve()
+    target = (reference_root / path).resolve()
+    if not target.is_relative_to(reference_root) or not target.is_file():
+        raise HTTPException(404, "Image not found")
+    relative = "Reference/" + target.relative_to(reference_root).as_posix()
+
+    with closing(connect()) as conn:
+        work = conn.execute(
+            "SELECT image_id, owner_id FROM registered_images WHERE image_path = ?",
+            (relative,)
+        ).fetchone()
+        if not work:
+            raise HTTPException(404, "Image not found")
+        allowed = user["role"] == "reviewer" or (
+            user["role"] == "rights_holder" and user["id"] == work["owner_id"]
+        )
+        if user["role"] == "seller":
+            allowed = conn.execute(
+                "SELECT 1 FROM verifications WHERE work_id = ? AND seller_id = ? LIMIT 1",
+                (work["image_id"], user["id"])
+            ).fetchone() is not None
+        if not allowed:
+            raise HTTPException(403, "Access denied")
+    return FileResponse(target, headers={"Cache-Control": "private, no-store"})
 
 
 # System health
@@ -276,8 +309,6 @@ def register(
     image: UploadFile = File(...),
     title: str = Form(...)
 ):
-    from portal_auth import require_user
-
     user = require_user(request, "rights_holder")
 
     title = title.strip()
@@ -387,7 +418,6 @@ from portal_rights import router as rights_router
 app.include_router(rights_router)
 
 # Verification and review integration
-from portal_auth import require_user
 from portal_events import (
     router as events_router,
     initialize_events,

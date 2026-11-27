@@ -335,6 +335,27 @@ def verification_detail(request, conn, row):
         })
 
     item["related_work"] = None
+    if row["work_id"]:
+        work = conn.execute("""
+            SELECT r.*, e.title, e.created_at
+            FROM registered_images r
+            LEFT JOIN registered_embeddings e ON e.image_id = r.image_id
+            WHERE r.image_id = ?
+        """, (row["work_id"],)).fetchone()
+        if work:
+            item["related_work"] = {
+                "id": work["image_id"],
+                "registration_id": work["registration_id"],
+                "title": work["title"] or work["registration_id"],
+                "image_url": item["matched_image_url"],
+                "owner_name": work["owner_name"],
+                "registry_source": "ATHN Demo" if work["title"] else "Simulated SAIP",
+                "registration_status": work["status"],
+                "registered_at": (
+                    work["created_at"].replace(" ", "T") + "Z"
+                    if work["created_at"] else None
+                )
+            }
 
     return item
 

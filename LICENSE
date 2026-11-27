@@ -1,7 +1,15 @@
-Copyright (c) 2026 Muath Alamoudi and ATHN contributors.
+ATHN — All Rights Reserved
 
-All rights reserved.
+Copyright (c) 2026 Muath Alamoudi and ATHN contributors. All rights reserved.
 
-No permission is granted to copy, modify, distribute, sublicense, or commercially exploit the original ATHN material in this revision except with prior written permission from the applicable rights holders or as otherwise permitted by law or applicable platform terms.
+Except where a separate license expressly applies, no permission is granted
+to reproduce, modify, distribute, sublicense or commercially exploit newly
+contributed material in this repository without prior written permission
+from the relevant copyright holder, subject to applicable law and GitHub's
+terms.
 
-This notice does not revoke permissions already granted for earlier versions under the MIT license, nor does it override the licenses of third-party dependencies, models, datasets, assets, or material owned by other contributors. Those materials remain subject to their applicable rights and license terms.
+This notice does not revoke any rights already granted under the MIT
+license to previously released material. The prior MIT notice is preserved
+in LICENSES/LEGACY-MIT.txt. Third-party dependencies, datasets, model
+weights and other third-party material retain their respective licenses;
+this notice does not assert ownership over them.

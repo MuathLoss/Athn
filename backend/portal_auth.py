@@ -7,6 +7,7 @@ from contextlib import closing
 from fastapi import APIRouter, Request, Response, HTTPException
 from pydantic import BaseModel
 from database import connect
+from config import COOKIE_SECURE
 
 router = APIRouter(prefix="/portal")
 
@@ -15,25 +16,25 @@ SESSION_DURATION = 86400
 
 ACCOUNTS = {
     "seller@example.test": {
-        "password": os.environ.get("ATHN_SELLER_A_PASSWORD", ""),
+        "password": os.getenv("ATHN_SELLER_A_PASSWORD", ""),
         "id": "seller_a",
         "name": "البائع أ",
         "role": "seller"
     },
     "seller_b@example.test": {
-        "password": os.environ.get("ATHN_SELLER_B_PASSWORD", ""),
+        "password": os.getenv("ATHN_SELLER_B_PASSWORD", ""),
         "id": "seller_b",
         "name": "البائع ب",
         "role": "seller"
     },
     "owner@example.test": {
-        "password": os.environ.get("ATHN_OWNER_PASSWORD", ""),
+        "password": os.getenv("ATHN_OWNER_PASSWORD", ""),
         "id": "owner_demo",
         "name": "صاحب الحق التجريبي",
         "role": "rights_holder"
     },
     "reviewer@example.test": {
-        "password": os.environ.get("ATHN_REVIEWER_PASSWORD", ""),
+        "password": os.getenv("ATHN_REVIEWER_PASSWORD", ""),
         "id": "usr_rev_001",
         "name": "ريم الحربي",
         "role": "reviewer"
@@ -47,6 +48,8 @@ class Credentials(BaseModel):
 
 
 def initialize_auth():
+    if any(not account["password"] for account in ACCOUNTS.values()):
+        raise RuntimeError("Set all four ATHN demo account passwords in the environment.")
     with closing(connect()) as conn, conn:
         conn.execute("""
             CREATE TABLE IF NOT EXISTS sessions (
@@ -122,7 +125,7 @@ def sign_in(
         credentials.identifier.strip().lower()
     )
 
-    if not account or not account["password"] or not secrets.compare_digest(
+    if not account or not account['password'] or not secrets.compare_digest(
         account["password"].encode(),
         credentials.password.encode()
     ):
@@ -158,7 +161,7 @@ def sign_in(
         value=token,
         httponly=True,
         samesite="lax",
-        secure=os.environ.get("ATHN_SECURE_COOKIE", "false").lower() == "true",
+        secure=COOKIE_SECURE,
         max_age=SESSION_DURATION
     )
 
@@ -179,7 +182,7 @@ def sign_out(
                 (hash_token(token),)
             )
 
-    response.delete_cookie(COOKIE, httponly=True, samesite="lax", secure=os.environ.get("ATHN_SECURE_COOKIE", "false").lower() == "true")
+    response.delete_cookie(COOKIE, httponly=True, samesite="lax", secure=COOKIE_SECURE)
 
     return {"status": "signed_out"}
 

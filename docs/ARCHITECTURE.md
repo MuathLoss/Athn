@@ -1,28 +1,28 @@
-# Architecture and boundaries
+# Architecture and data flow
 
-Seller upload -> authenticated FastAPI analyze route -> normalized 512-dimensional SSCD embedding -> cosine top-k retrieval -> geometric SIFT/RANSAC verification when required -> simulated registry and seller permission lookup -> allow, review or hold_for_review.
+The frontend exposes an Arabic seller workspace, rights-holder portal and reviewer portal. The backend uses role-bound sessions, SQLite persistence, an indexed SSCD reference set and on-demand geometric verification.
 
-React/Vite calls FastAPI over HTTP(S) with cookies. SQLite persists registry entries, new embedding vectors, permissions, verification records, notifications, review cases and audit entries. Original model and reference embeddings are loaded at startup; dynamic embeddings are combined at query time. Image evidence lives on disk. Human decisions use revision checks and are recorded separately from the initial machine decision.
+## Detection
 
-## API
+1. Validate the uploaded photograph; resize to 320 × 320 and apply the model's normalization.
+2. Generate an L2-normalized 512-dimensional SSCD embedding and retrieve the top five reference matches by cosine similarity.
+3. High-confidence similarity (0.85 or higher) is treated as a high-risk match. Scores at or above 0.40 are reviewed; candidates at or above 0.45 may be geometrically verified using SIFT, Lowe ratio 0.75, RANSAC 3 px, at least 12 inliers and an inlier ratio of at least 0.50.
+4. Look up the matched simulated registration and seller authorization. Return allow, review or hold-for-review. Preserve the AI decision as evidence; human decisions are separately audited.
 
-- /health, /register, /analyze
-- /portal/session, /portal/sign-in, /portal/sign-out, /portal/marketplace-session
-- /portal/overview, /portal/works, /portal/works/{id}, /portal/activity
-- /portal/works/{id}/permissions/{seller_id} (PUT / DELETE)
-- /portal/verifications/{id}, /portal/verification-image/{id}
-- /portal/notifications, /portal/notifications/{id}/read
-- /portal/review/queue, /portal/review/cases/{id}, /prepare and /submit under the case path
+See [frozen research thresholds](../research/detection_config.json). New works have their own embeddings stored in SQLite; no retraining is required.
 
-## Deployment prerequisites (not completed)
+## API groups
 
-- Run a clean regression build and full workflow test after the source move and configuration changes.
-- Use persistent storage for SQLite and uploaded images; use one backend instance until concurrency and multi-instance storage are addressed.
-- Keep real passwords in server environment configuration; use new passwords, HTTPS, secure cookies, same-site routing, explicit allowed origins, CSRF defenses, rate limits and stronger authentication. Cross-site cookie deployments need additional design.
-- Restrict reference image access: the current /images static route is publicly readable. Do not expose private runtime assets until this is fixed.
-- Use a fresh demo database or sanitize imported snapshots and invalidate old sessions. Establish upload retention, disk quotas and backups.
-- The reviewer evidence UI may show registry source unavailable; complete its related-work metadata wiring before public presentation.
-- Duplicate registration prevention, comprehensive independent negative-image validation and operational monitoring are not yet implemented.
-- Review decisions are audit records inside the prototype; no actual marketplace publication callback or SAIP integration exists.
+| Group | Endpoints |
+| --- | --- |
+| System | GET /health |
+| Authentication | GET /portal/session, POST /portal/sign-in, POST /portal/sign-out |
+| Marketplace | GET /portal/marketplace-session, POST /analyze |
+| Registration | POST /register |
+| Rights | GET /portal/overview, GET /portal/works, GET /portal/works/{id}, GET /portal/activity |
+| Permissions | PUT or DELETE /portal/works/{id}/permissions/{seller_id} |
+| Evidence | GET /images/{path}, GET /portal/verifications/{id}, GET /portal/verification-image/{id} |
+| Notifications | GET /portal/notifications, POST /portal/notifications/{id}/read |
+| Review | GET /portal/review/queue, GET /portal/review/cases/{id}, POST /portal/review/cases/{id}/prepare, POST /portal/review/cases/{id}/submit |
 
-The original UI design documentation is retained under docs/sources/ and docs/ui-inspiration.md. It describes the historical frontend design, not necessarily the latest backend behavior.
+The frontend route mapping is supplied in its environment example. SQLite stores registrations, permissions, embeddings, hashed session tokens, verifications, review cases, notifications and revision-aware audit records. Image files are stored separately in the runtime directory. Review decisions are internal to ATHN; the original AI decision is not overwritten and no actual marketplace enforcement or SAIP connection occurs.

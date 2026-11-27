@@ -143,7 +143,7 @@ export function Works() {
   const overview = useQuery({ queryKey: ['overview'], queryFn: services.rights.getOverview });
   return <>
     <WorkspaceBanner context="بوابة صاحب الحق" title="المصنفات" description="الصور والمحتوى المرتبط بسجل حقوقك." icon={Layers3} />
-<RegisterWork />
+{import.meta.env.VITE_IDHN_API_BASE_URL && <RegisterWork />}
     <div className="registry-ledger catalog-ledger">
       {overview.data && <div className="catalog-summary"><Layers3 size={20} aria-hidden="true" />إجمالي المصنفات <strong>{overview.data.protected_work_count.toLocaleString('ar-SA')}</strong></div>}
       <FilterBar><Search value={term} onChange={value => update('q', value)} label="البحث في المصنفات" placeholder="اسم المصنف أو معرف التسجيل" />
@@ -228,10 +228,10 @@ export function WorkDetail() {
           ]} />
         </section>
       </div>
-<ManagePermissions
+{import.meta.env.VITE_IDHN_API_BASE_URL && <ManagePermissions
   workId={work.id}
   authorizations={work.authorizations}
-/>
+/>}
       <section className="detail-section"><h2>سجلات الإذن</h2>
         {work.authorizations.length ? <ul className="ledger">{work.authorizations.map(record => <li key={record.id} className="ledger-row">
           <span className="row-main"><strong>{record.seller_name ?? <Id>{record.seller_id}</Id>}</strong><small>{record.marketplace ?? 'السوق غير متاح'} · <Id>{record.seller_id}</Id></small></span>

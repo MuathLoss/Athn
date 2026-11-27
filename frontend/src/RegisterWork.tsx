@@ -27,7 +27,7 @@ export default function RegisterWork() {
       body.append('image', image);
       body.append('title', title.trim());
 
-      const base = import.meta.env.VITE_IDHN_API_BASE_URL;
+      const base = new URL(import.meta.env.VITE_IDHN_API_BASE_URL, window.location.origin);
 
       const response = await fetch(
         new URL('/register', base),

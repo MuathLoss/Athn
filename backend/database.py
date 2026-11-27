@@ -1,9 +1,9 @@
-import os
 import sqlite3
 import json
-from pathlib import Path
+from contextlib import closing
+from config import RUNTIME_DIR
 
-BASE = Path(os.environ.get("ATHN_RUNTIME_DIR", str(Path(__file__).resolve().parent.parent / "ATHN_runtime"))).expanduser().resolve()
+BASE = RUNTIME_DIR
 DB = BASE / "athn.db"
 
 def connect():
@@ -13,7 +13,7 @@ def connect():
     return conn
 
 def initialize():
-    with connect() as conn:
+    with closing(connect()) as conn, conn:
         conn.executescript("""
             CREATE TABLE IF NOT EXISTS registered_images (
                 image_id TEXT PRIMARY KEY,

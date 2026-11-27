@@ -31,7 +31,7 @@ export default function ManagePermissions({
     setError('');
 
     try {
-      const base = import.meta.env.VITE_IDHN_API_BASE_URL;
+      const base = new URL(import.meta.env.VITE_IDHN_API_BASE_URL, window.location.origin);
 
       const path =
         '/portal/works/' +

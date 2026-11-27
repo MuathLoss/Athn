@@ -1,3 +1,5 @@
+> Historical frontend handoff (pre-integration). Commands, mock accounts and paths below are archival; use [current setup](SETUP.md) instead.
+
 # إذن
 
 واجهة عربية للتحقق من حقوق الصور قبل النشر. تشمل المدخل العام ورحلتي صاحب الحق والمراجع.
