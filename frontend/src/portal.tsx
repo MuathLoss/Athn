@@ -1,3 +1,5 @@
+import ManagePermissions from './ManagePermissions';
+import RegisterWork from './RegisterWork';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ArrowUpLeft, Bell, BellRing, BookOpenText, CalendarDays, CircleAlert, CircleCheck, CircleHelp, Clock3, Layers3, ScanLine, KeyRound, CircleDot, Store } from 'lucide-react';
 import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom';
@@ -125,6 +127,7 @@ function useFilterParams() {
   const [params, set] = useSearchParams();
   return { params, update(key: string, value: string) {
     const next = new URLSearchParams(params);
+if (key !== 'page') next.delete('page');
     if (value) next.set(key, value);
     else next.delete(key);
     set(next, { replace: true });
@@ -140,13 +143,71 @@ export function Works() {
   const overview = useQuery({ queryKey: ['overview'], queryFn: services.rights.getOverview });
   return <>
     <WorkspaceBanner context="بوابة صاحب الحق" title="المصنفات" description="الصور والمحتوى المرتبط بسجل حقوقك." icon={Layers3} />
+<RegisterWork />
     <div className="registry-ledger catalog-ledger">
       {overview.data && <div className="catalog-summary"><Layers3 size={20} aria-hidden="true" />إجمالي المصنفات <strong>{overview.data.protected_work_count.toLocaleString('ar-SA')}</strong></div>}
       <FilterBar><Search value={term} onChange={value => update('q', value)} label="البحث في المصنفات" placeholder="اسم المصنف أو معرف التسجيل" />
       <label className="field">حالة التسجيل<select value={filters.status ?? ''} onChange={event => update('status', event.target.value)}><option value="">الكل</option><option value="active">نشط</option><option value="unknown">غير متاح</option></select></label>
       {params.size > 0 && <Link className="button secondary clear-filters" to="/portal/works">مسح المرشحات</Link>}
     </FilterBar>
-    <Data query={query}>{records => <><p className="result-count" role="status">نتائج القائمة <strong>{records.length.toLocaleString('ar-SA')}</strong></p><WorkRows records={records} catalog /></>}</Data>
+    <Data query={query}>{records => {
+  const pageSize = 25;
+  const totalPages = Math.max(
+    1, Math.ceil(records.length / pageSize)
+  );
+
+  const page = Math.max(
+    1,
+    Math.min(
+      totalPages,
+      parseInt(params.get('page') ?? '1', 10) || 1
+    )
+  );
+
+  const visible = records.slice(
+    (page - 1) * pageSize,
+    page * pageSize
+  );
+
+  return <>
+    <p className="result-count" role="status">
+      نتائج القائمة
+      <strong>
+        {records.length.toLocaleString('ar-SA')}
+      </strong>
+    </p>
+
+    <WorkRows records={visible} catalog />
+
+    <div style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      gap: '16px',
+      padding: '20px'
+    }}>
+      <button
+        className="button secondary"
+        disabled={page === 1}
+        onClick={() => update('page', String(page - 1))}
+      >
+        السابق
+      </button>
+
+      <span>
+        صفحة {page} من {totalPages}
+      </span>
+
+      <button
+        className="button secondary"
+        disabled={page === totalPages}
+        onClick={() => update('page', String(page + 1))}
+      >
+        التالي
+      </button>
+    </div>
+  </>;
+}}</Data>
     </div>
   </>;
 }
@@ -167,6 +228,10 @@ export function WorkDetail() {
           ]} />
         </section>
       </div>
+<ManagePermissions
+  workId={work.id}
+  authorizations={work.authorizations}
+/>
       <section className="detail-section"><h2>سجلات الإذن</h2>
         {work.authorizations.length ? <ul className="ledger">{work.authorizations.map(record => <li key={record.id} className="ledger-row">
           <span className="row-main"><strong>{record.seller_name ?? <Id>{record.seller_id}</Id>}</strong><small>{record.marketplace ?? 'السوق غير متاح'} · <Id>{record.seller_id}</Id></small></span>

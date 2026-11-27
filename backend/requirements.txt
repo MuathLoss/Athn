@@ -1,0 +1,11 @@
+# Tested model stack: Python 3.11, PyTorch 2.9.1, torchvision 0.24.1.
+# Install the CPU or appropriate CUDA torch wheels first (see docs/SETUP.md).
+torch==2.9.1
+torchvision==0.24.1
+fastapi>=0.115,<1
+uvicorn>=0.30,<1
+python-multipart>=0.0.18,<1
+opencv-python-headless>=4.10,<5
+numpy>=1.26,<3
+Pillow>=10,<14
+python-dotenv>=1,<2

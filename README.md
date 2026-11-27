@@ -1,95 +1,53 @@
-# إذن
+# ATHN (إذن / IDHN)
 
-واجهة عربية للتحقق من حقوق الصور قبل النشر. تشمل المدخل العام ورحلتي صاحب الحق والمراجع.
+**AI-assisted image-rights verification before marketplace publication.**
 
-## نقطة الاستئناف
+ATHN is a LegalTech hackathon prototype that compares seller-submitted product photos with registered photographs, checks recorded seller authorization, and routes uncertain or unauthorized usage to human review. It protects photographs rather than product identity. The Arabic, right-to-left interface supports sellers, rights holders and reviewers.
 
-- آخر مرحلة مكتملة: تنفيذ المراجع الخمسة لشاشة الدخول، وصندوق التنبيهات، وسجل المصنفات، ورحلة التحقق من النظرة العامة، ومساحة البائع من الرفع إلى النتيجة.
-- آخر فحص: نجحت `build` و`lint` و`typecheck` و19 اختبار Playwright. شملت المراجعة البصرية الواجهات وحالاتها عند 390 و1440 بكسل.
-- عند الاستئناف شغّل `npm run dev` من مجلد المشروع وافتح `/login`. بيانات الحسابات المحلية أدناه.
-- العمل المتبقي عند توافر أنظمة الإنتاج: ربط مصادقة HTTP، وبوابة السوق، وخدمات التحقق والسجل. إعدادات الربط موثقة في الأسفل.
-- الصور والـprompts الأصلية محفوظة في [ملف مراجع الواجهات](docs/ui-inspiration.md).
+## What works
 
-## التشغيل محليًا
+- Image-copy retrieval using pretrained SSCD embeddings and cosine similarity, with SIFT/RANSAC geometric verification for borderline candidates.
+- Dynamic image registration and seller permission management with persistent SQLite storage.
+- Authenticated seller checks, usage history, in-app owner notifications, review evidence, decisions and audit records.
+- A local end-to-end demonstration passed: authorized seller allowed, unauthorized seller held, owner notified, reviewer decision recorded and persisted after restart, and one role restriction verified.
+- A separate local demonstration recognized an exact and edited copy of a newly registered photo while allowing an independently taken photo of the same product.
 
-تم التحقق من التشغيل باستخدام Node.js 24. بعد قبول دعوة GitHub، استنسخ المستودع بحسابك وأكمل من فرع عمل.
+The registry is simulated, not an official Saudi Authority for Intellectual Property (SAIP) integration. No real marketplace publishing, external notification delivery or legal enforcement is performed. A similarity score is not a legal determination.
 
-```sh
-git clone https://github.com/Abdullah-MSA/IDHN.git
-cd IDHN
-git switch -c backend-integration
-npm ci
-npm run dev
-```
+## Repository
 
-افتح الرابط الذي يطبعه Vite. في خادم التطوير دون عنوان API، استخدم [نموذج تسجيل الدخول](http://127.0.0.1:5173/login) بالحسابات المحلية أدناه. يبقى تسجيل الدخول في علامة التبويب بعد إعادة التحميل، وتنهيه وظيفة تسجيل الخروج. يتيح `/_dev` تبديل سيناريو التحقق.
-
-| الحساب المحلي للمطور | كلمة المرور | الوجهة |
-| --- | --- | --- |
-| `seller@example.test` | `Seller-4826` | `/marketplace/pre-publish` |
-| `owner@example.test` | `Owner-4826` | `/portal` |
-| `reviewer@example.test` | `Review-4826` | `/review` |
-
-### رحلة البائع في السوق
-
-افتح [واجهة السوق المستقلة](http://127.0.0.1:5173/marketplace/pre-publish) مباشرة بعد تشغيل Vite. إذا اختار Vite منفذًا مختلفًا، استخدم المنفذ الذي يطبعه مع المسار `/marketplace/pre-publish`.
-
-محليًا، ادخل بحساب البائع من النموذج الموحد للوصول إلى محرر السوق. أدخل اسم المنتج واختر صورة أو التقطها وراجع المعاينة، ثم اضغط «التحقق ومتابعة النشر». يعرض التشغيل المحلي دون API نتيجة من بيانات التطوير، ويتطلب النشر الفعلي ربط بوابة السوق.
-
-## الفحوص
-
-```sh
-npm run typecheck
-npm run lint
-npm run build
-npx playwright install chromium
-npm test
-```
-
-اختبارات Playwright تغطي المسارات، وتصفية البيانات، ورفض الوصول، وسيناريوهات التحقق، ومعاينة القرار والتعارض، ورفع صور السوق، وعروضًا من 360 إلى 1920 بكسل، وفحوص axe. يمكن ضبط متغير `IDHN_BROWSER` لاستخدام قناة Chromium مثبّتة محليًا مثل `msedge`.
-
-## المسارات
-
-| المساحة | المسارات |
+| Directory | Contents |
 | --- | --- |
-| عام | `/`، `/login` |
-| السوق | `/marketplace/pre-publish` |
-| صاحب الحق | `/portal`، `/portal/works`، `/portal/works/:workId`، `/portal/activity`، `/portal/verifications/:verificationId`، `/portal/notifications` |
-| المراجع | `/review`، `/review/cases/:caseId`، `/review/cases/:caseId/decision`، `/review/cases/:caseId/confirm` |
+| [frontend/](frontend/) | React, TypeScript, Vite, Arabic interface, original design implementation and browser tests |
+| [backend/](backend/) | FastAPI, SSCD + SIFT/RANSAC, SQLite, sessions, permissions and review workflow |
+| [research/](research/) | Colab source export, aggregate results and research notes |
+| [docs/](docs/) | Setup, architecture, dataset, external-asset inventory and original design documentation |
 
-## ربط الخدمات
+## Run locally
 
-### ترتيب التسليم لمطوّر الباك إند
+1. Request access to the [private project Drive](https://drive.google.com/drive/folders/1LRAvdL-bINHn_J3GLlWBMCYhTVNmJtwE) and restore the required assets into `ATHN_runtime/` at repository root.
+2. Follow [setup instructions](docs/SETUP.md) for Python 3.11, the PyTorch CPU/CUDA stack and Node.js.
+3. Configure four backend demo passwords and the frontend API environment using the provided templates.
+4. Start FastAPI and Vite in separate terminals. Open http://127.0.0.1:5173/login.
 
-1. شغّل الواجهة محليًا قبل ضبط عناوين API وجرب الحسابات الثلاثة أعلاه لفهم المسارات. انسخ [قالب الإعداد](.env.example) إلى `.env.local` عند بدء الربط. متغيرات `VITE_*` تظهر في كود المتصفح، فاحتفظ بمفاتيح الخدمات والأسرار على الخادم.
-2. اربط المصادقة أولًا في [محوّل البوابة](src/services/portal-http.ts). تحقّق من تسجيل الدخول واسترجاع الجلسة وتسجيل الخروج، ومن توجيه كل حساب حسب الدور الذي يرجعه الخادم. استخدم [عقود الخدمات](src/services/contracts.ts) و[نماذج المجال](src/domain.ts) لمواءمة الاستجابات داخل المحوّل.
-3. اربط بيانات صاحب الحق والمراجع في المحوّل نفسه. افحص رفض الوصول لحساب غير مخوّل، وتعارض نسخة الحالة إذا تغيّرت أثناء معاينة قرار المراجع.
-4. اربط رفع الصورة في [محوّل السوق](src/services/marketplace.ts). افحص السماح، والإحالة للمراجعة، وتعليق النشر، وفشل الخدمة. يستخرج خادم السوق هوية البائع من جلسته ويعيد التحقق من قرار النشر عند تنفيذ العملية في السوق.
-5. شغّل الفحوص أعلاه، ثم أعد اختبار هذه الرحلات على بيئة الباك إند الفعلية. اختبارات الواجهة المحلية تستخدم بيانات تطوير. راجع [مصادر المشروع](docs/sources/) للمعنى الوظيفي والقانوني.
+The repository is intentionally source-only. **Every omitted asset, its location and restoration procedure are listed in [External assets and backups](docs/EXTERNAL_ASSETS.md).** The Drive is access-controlled; public repository access does not grant access to private files.
 
-- `src/domain.ts` يعرّف عقود المجال مستقلة عن React. تمثل `decision: null` تحققًا بلا نتيجة تشغيلية مكتملة. يستخدم تأكيد المراجعة رقم نسخة الحالة التجريبي لمنع الإرسال من معاينة قديمة.
-- `src/services/contracts.ts` يعرّف واجهات المصادقة والمصنفات والتحقق والإشعارات والمراجعة. `src/services/mock.ts` يزوّد التطبيق ببيانات العرض ويطبق حفظ قرارات العرض.
-- `src/services/http.ts` يهيئ طلبات HTTP بالجلسة ويحوّل أخطاء الوصول والتعارض إلى حالات الواجهة. يحدد `src/services/portal-http.ts` ربط عمليات البوابات، ويحدد `src/services/marketplace.ts` ربط فحص صورة السوق.
-- نتائج المطابقة والتسجيل والإذن والقرار وحالة تسليم الإشعار تأتي عبر الخدمات. تستمد الهوية ودرجة التشابه والنتيجة معناها من [مصادر المشروع](docs/sources/)، وتعرضها الواجهة وفق مصدرها.
-- الصور `public/media/ceramic.jpg` و`public/media/submission.jpg` عيّنتان مولّدتان للعرض. الرمز من الحزمة المعتمدة.
+## Research results
 
-### إعداد HTTP
+| Metric (held-out manipulated-photo queries) | Result |
+| --- | ---: |
+| Top-1 correct source retrieval | 94.66% |
+| Top-3 correct source retrieval | 97.33% |
+| Top-5 correct source retrieval | 97.99% |
+| Flagged by hybrid system | 94.65% |
+| Correctly flagged and correct source identified | 91.15% |
 
-اضبط القيم في `.env.local` وفق `.env.example` قبل تشغيل Vite أو البناء. يفعّل `VITE_IDHN_API_BASE_URL` وضع HTTP في التطوير أيضًا. يستخدم بناء الإنتاج HTTP فقط، ويعرض فقدان الخدمة بوضوح عند غياب ربطها.
+The research dataset has 5,000 reference images and 50,000 query images (55,000 total), including 25,000 synthetic manipulations. The held-out manipulated subset contains 15,000 queries. These are retrieval and detection measurements, **not overall infringement-detection accuracy**. Candidate negative labels are noisy; independent false-positive evaluation is still required. See [research notes](research/README.md) and [aggregate results](research/results/final_performance.csv).
 
-- يستخدم النموذج `AuthService.signIn({ identifier, password })`. اضبط `VITE_IDHN_API_BASE_URL` وخريطة المسارات، بما فيها عملية `signIn` من نوع POST إلى نقطة المصادقة الفعلية. يرسل المحوّل البيانات بصيغة JSON. بعد نجاح الطلب وإنشاء جلسة الخادم، يقرأ المحوّل `session` ويتوقع `id` و`name` و`role` بقيمة `seller` أو `rights_holder` أو `reviewer`. تعني HTTP 401 من عملية `signIn` أن بيانات الدخول غير صحيحة. استخدم `signOut` لإنهاء الجلسة على الخادم.
-- `VITE_IDHN_API_ROUTES` خريطة JSON من اسم العملية إلى `path` و`method` الاختياري. العمليات هي `session` و`signIn` و`signOut` و`overview` و`works` و`work` و`activity` و`verification` و`notifications` و`markAsRead` و`reviewQueue` و`reviewCase` و`prepareDecision` و`submitDecision`. يمكن تضمين `{id}` في المسار، وترسل المرشحات في الاستعلام. افصل تحويلات استجابات النظام الحقيقي داخل المحوّل. ترجع الحالة خيارات القرار في `available_decisions` وفق سياسة الخادم، وتُرسل النسخة المتوقعة عند التأكيد.
-- سطح البائع المستقل في `src/marketplace.tsx` ومساره `/marketplace/pre-publish`. يفتح من حساب البائع داخل السوق لإنشاء بيانات واجهة المنتج أو لتعديل عنوانه إذا أرسله المضيف. عند تهيئة `VITE_MARKETPLACE_SESSION_URL`، يقرأ المحوّل من بوابة السوق حالة `authenticated` وعنوان `productTitle` الاختياري. يستخدم `VITE_MARKETPLACE_LOGIN_URL` للعودة إلى مصادقة السوق عند انتهاء جلسته. في التضمين داخل سوق قائم يمكن للمضيف إنشاء الجلسة قبل فتح الصفحة.
-- `VITE_MARKETPLACE_ANALYZE_URL` عنوان بوابة السوق الموثقة. في `src/services/marketplace.ts` ترسل الواجهة `image` بصيغة multipart مع الجلسة. تستخرج البوابة هوية البائع الموثوقة من الجلسة، ثم تكيّف الطلب مع عقد التحليل الفعلي مثل `POST /analyze`. تعرض الواجهة القرار الوارد. عند السماح يظهر رابط `VITE_MARKETPLACE_PUBLISH_URL` إن ضُبط. يتحقق السوق من القرار مرة أخرى عند النشر ويحفظ المنتج في أنظمته.
-- وفّر جلسة صالحة لطلبات HTTP الموثقة. يحتاج الربط عبر نطاق مختلف إلى إعداد CORS مع بيانات الاعتماد على الخادم. يعتمد تكامل السجل والإشعارات والتدقيق على الخادم الفعلي.
+## Status and limitations
 
-## مراجع التصميم وأصول العرض
+The integrated local prototype was manually exercised before this repository reorganization. The reorganized source still needs a fresh installation, build and end-to-end regression run. Deployment is pending; see [architecture and deployment prerequisites](docs/ARCHITECTURE.md). No claim of production readiness is made.
 
-- المدخل يستخدم عنوانًا تحريريًا وصورة منتج محورية. [Awwwards · Waka](https://assets.awwwards.com/awards/gallery/2020/09/live-presentation-jonas-bruno.pdf)
-- تعرض بوابة صاحب الحق صفوفًا قابلة للمسح البصري بأولوية للمحتوى. [Linear · UI redesign](https://linear.app/now/how-we-redesigned-the-linear-ui)
-- يربط مسار المراجع معاينة الأدلة بتسلسل الحالة ثم الإجراء. [Linear · Triage](https://linear.app/docs/triage) · [Sentry · Improved Breadcrumbs on Issues](https://sentry.io/changelog/improved-breadcrumbs-on-issues/)
+## Rights
 
-أُنشئت العينتان باستخدام ImageGen المدمج.
-
-- `ceramic.jpg` — “A premium realistic product photograph for a demo visual-rights registry. One matte cobalt-blue sculptural ceramic vase with narrow neck, soft off-white studio plinth, cool lavender gray backdrop, directional side light and long shadow. Contemporary editorial product photography, restrained, landscape aspect ratio, centered subject with breathing room. No text or graphics.”
-- `submission.jpg` — “Edit this demo rights registry photo into a marketplace submission of the same photo: slightly cropped tighter, horizontally reframed and slightly warmer and brighter, preserve the unmistakable same blue vase, same shape and original photo angle. Landscape. No text.”
+All rights reserved for original ATHN material in this revision; see [LICENSE](LICENSE). Previous MIT grants remain valid. Third-party components retain their own licenses. Dataset attribution: Amazon Berkeley Objects (ABO), Amazon and UC Berkeley, CC BY 4.0; see [dataset notes](docs/DATASET.md). SSCD is a pretrained third-party model from Meta research.
