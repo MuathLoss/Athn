@@ -1,4 +1,4 @@
-@import '../docs/sources/02_DESIGN_SYSTEM/tokens/css-variables.css' layer(brand);
+@import '../../docs/sources/02_DESIGN_SYSTEM/tokens/css-variables.css' layer(brand);
 
 :root {
   --ink: var(--idhn-obsidian);
