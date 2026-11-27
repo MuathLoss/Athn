@@ -1,9 +1,36 @@
+# Generated frontend files
 node_modules/
 dist/
 playwright-report/
 test-results/
-*.local
+.vscode/mcp.json
+
+# Local configuration and credentials
 .env
 .env.*
 !.env.example
-.vscode/mcp.json
+*.local
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Private / external runtime and large artifacts
+ATHN_runtime/
+Dataset/
+Embeddings/
+Models/
+MetaData/
+Evidence/
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.pt
+*.pth
+*.zip
+*backup*.py
+finish_integration.py

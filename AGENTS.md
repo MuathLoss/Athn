@@ -1,4 +1,6 @@
 # Project workflow
 
-- After every completed workspace change you make, run the checks appropriate to that change, commit the files you changed, and push the commit to the current branch's upstream on GitHub. The user has authorized this as the default workflow.
-- Keep unrelated changes, secrets, local environment files, and backups out of the commit. Use a regular push. If the push is blocked, diagnose it and report any remaining blocker.
+- Application code lives in frontend/ and backend/. Research artifacts and documentation are separate.
+- Keep existing design and user changes intact; run relevant checks before committing.
+- Do not commit runtime assets, datasets, private databases, evidence, model weights, credentials, environment files or generated dependencies.
+- Never treat the simulated registry as an official integration or report benchmark retrieval as verified infringement accuracy.

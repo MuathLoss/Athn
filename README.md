@@ -1,95 +1,89 @@
-# إذن
+# ATHN (إذن)
 
-واجهة عربية للتحقق من حقوق الصور قبل النشر. تشمل المدخل العام ورحلتي صاحب الحق والمراجع.
+**AI-assisted image-rights verification before marketplace publication.**
 
-## نقطة الاستئناف
+ATHN is a LegalTech hackathon prototype that detects potential copies of registered product photographs, checks recorded seller permissions, and routes uncertain or unauthorized use to human review. Its Arabic interface connects sellers, rights holders and reviewers to a persistent AI backend.
 
-- آخر مرحلة مكتملة: تنفيذ المراجع الخمسة لشاشة الدخول، وصندوق التنبيهات، وسجل المصنفات، ورحلة التحقق من النظرة العامة، ومساحة البائع من الرفع إلى النتيجة.
-- آخر فحص: نجحت `build` و`lint` و`typecheck` و19 اختبار Playwright. شملت المراجعة البصرية الواجهات وحالاتها عند 390 و1440 بكسل.
-- عند الاستئناف شغّل `npm run dev` من مجلد المشروع وافتح `/login`. بيانات الحسابات المحلية أدناه.
-- العمل المتبقي عند توافر أنظمة الإنتاج: ربط مصادقة HTTP، وبوابة السوق، وخدمات التحقق والسجل. إعدادات الربط موثقة في الأسفل.
-- الصور والـprompts الأصلية محفوظة في [ملف مراجع الواجهات](docs/ui-inspiration.md).
+> Prototype only: the rights registry and marketplace are simulated. ATHN does not establish legal infringement or represent an official integration with the Saudi Authority for Intellectual Property (SAIP).
 
-## التشغيل محليًا
+## What it does
 
-تم التحقق من التشغيل باستخدام Node.js 24. بعد قبول دعوة GitHub، استنسخ المستودع بحسابك وأكمل من فرع عمل.
+- Register new photographs, generate 512-dimensional SSCD embeddings and make them searchable immediately.
+- Identify likely copies, including cropped, rotated, compressed and overlaid versions, using SSCD similarity and SIFT/RANSAC geometric verification.
+- Check seller identity and permission records before returning an allow, review or hold-for-review decision.
+- Record verification evidence, send internal notifications, and support human review with persistent audit records.
+- Allow rights holders to grant and revoke permissions through the existing Arabic dashboard.
 
-```sh
-git clone https://github.com/Abdullah-MSA/IDHN.git
-cd IDHN
-git switch -c backend-integration
-npm ci
-npm run dev
+## Architecture
+
+```mermaid
+flowchart LR
+    A[React / TypeScript UI] --> B[FastAPI]
+    B --> C[SSCD embeddings]
+    C --> D[SIFT / RANSAC]
+    B --> E[(SQLite registry)]
+    B --> F[Review cases and notifications]
+    D --> B
+    E --> B
 ```
 
-افتح الرابط الذي يطبعه Vite. في خادم التطوير دون عنوان API، استخدم [نموذج تسجيل الدخول](http://127.0.0.1:5173/login) بالحسابات المحلية أدناه. يبقى تسجيل الدخول في علامة التبويب بعد إعادة التحميل، وتنهيه وظيفة تسجيل الخروج. يتيح `/_dev` تبديل سيناريو التحقق.
-
-| الحساب المحلي للمطور | كلمة المرور | الوجهة |
-| --- | --- | --- |
-| `seller@example.test` | `Seller-4826` | `/marketplace/pre-publish` |
-| `owner@example.test` | `Owner-4826` | `/portal` |
-| `reviewer@example.test` | `Review-4826` | `/review` |
-
-### رحلة البائع في السوق
-
-افتح [واجهة السوق المستقلة](http://127.0.0.1:5173/marketplace/pre-publish) مباشرة بعد تشغيل Vite. إذا اختار Vite منفذًا مختلفًا، استخدم المنفذ الذي يطبعه مع المسار `/marketplace/pre-publish`.
-
-محليًا، ادخل بحساب البائع من النموذج الموحد للوصول إلى محرر السوق. أدخل اسم المنتج واختر صورة أو التقطها وراجع المعاينة، ثم اضغط «التحقق ومتابعة النشر». يعرض التشغيل المحلي دون API نتيجة من بيانات التطوير، ويتطلب النشر الفعلي ربط بوابة السوق.
-
-## الفحوص
-
-```sh
-npm run typecheck
-npm run lint
-npm run build
-npx playwright install chromium
-npm test
-```
-
-اختبارات Playwright تغطي المسارات، وتصفية البيانات، ورفض الوصول، وسيناريوهات التحقق، ومعاينة القرار والتعارض، ورفع صور السوق، وعروضًا من 360 إلى 1920 بكسل، وفحوص axe. يمكن ضبط متغير `IDHN_BROWSER` لاستخدام قناة Chromium مثبّتة محليًا مثل `msedge`.
-
-## المسارات
-
-| المساحة | المسارات |
+| Layer | Stack |
 | --- | --- |
-| عام | `/`، `/login` |
-| السوق | `/marketplace/pre-publish` |
-| صاحب الحق | `/portal`، `/portal/works`، `/portal/works/:workId`، `/portal/activity`، `/portal/verifications/:verificationId`، `/portal/notifications` |
-| المراجع | `/review`، `/review/cases/:caseId`، `/review/cases/:caseId/decision`، `/review/cases/:caseId/confirm` |
+| Frontend | React, TypeScript, Vite, TanStack Query |
+| Backend | Python 3.11, FastAPI, Uvicorn |
+| Image retrieval | PyTorch, pretrained SSCD Disc Mixup |
+| Geometric verification | OpenCV SIFT and RANSAC |
+| Persistence | SQLite and image files |
 
-## ربط الخدمات
+## Repository
 
-### ترتيب التسليم لمطوّر الباك إند
+```text
+Athn/
+├── frontend/       # Arabic UI, service contracts, existing tests
+├── backend/        # AI API, registration, auth, permissions, review
+├── research/       # Colab source export, thresholds, aggregate results
+├── docs/           # Setup, dataset, architecture and original UI design
+├── LICENSE
+└── README.md
+```
 
-1. شغّل الواجهة محليًا قبل ضبط عناوين API وجرب الحسابات الثلاثة أعلاه لفهم المسارات. انسخ [قالب الإعداد](.env.example) إلى `.env.local` عند بدء الربط. متغيرات `VITE_*` تظهر في كود المتصفح، فاحتفظ بمفاتيح الخدمات والأسرار على الخادم.
-2. اربط المصادقة أولًا في [محوّل البوابة](src/services/portal-http.ts). تحقّق من تسجيل الدخول واسترجاع الجلسة وتسجيل الخروج، ومن توجيه كل حساب حسب الدور الذي يرجعه الخادم. استخدم [عقود الخدمات](src/services/contracts.ts) و[نماذج المجال](src/domain.ts) لمواءمة الاستجابات داخل المحوّل.
-3. اربط بيانات صاحب الحق والمراجع في المحوّل نفسه. افحص رفض الوصول لحساب غير مخوّل، وتعارض نسخة الحالة إذا تغيّرت أثناء معاينة قرار المراجع.
-4. اربط رفع الصورة في [محوّل السوق](src/services/marketplace.ts). افحص السماح، والإحالة للمراجعة، وتعليق النشر، وفشل الخدمة. يستخرج خادم السوق هوية البائع من جلسته ويعيد التحقق من قرار النشر عند تنفيذ العملية في السوق.
-5. شغّل الفحوص أعلاه، ثم أعد اختبار هذه الرحلات على بيئة الباك إند الفعلية. اختبارات الواجهة المحلية تستخدم بيانات تطوير. راجع [مصادر المشروع](docs/sources/) للمعنى الوظيفي والقانوني.
+The dataset, pretrained weights, embeddings, original research notebook with outputs, and private runtime files are **not committed**. Authorized collaborators can obtain the required assets from the [ATHN Google Drive folder](https://drive.google.com/drive/folders/1LRAvdL-bINHn_J3GLlWBMCYhTVNmJtwE). Access is managed separately; the link does not make the folder public.
 
-- `src/domain.ts` يعرّف عقود المجال مستقلة عن React. تمثل `decision: null` تحققًا بلا نتيجة تشغيلية مكتملة. يستخدم تأكيد المراجعة رقم نسخة الحالة التجريبي لمنع الإرسال من معاينة قديمة.
-- `src/services/contracts.ts` يعرّف واجهات المصادقة والمصنفات والتحقق والإشعارات والمراجعة. `src/services/mock.ts` يزوّد التطبيق ببيانات العرض ويطبق حفظ قرارات العرض.
-- `src/services/http.ts` يهيئ طلبات HTTP بالجلسة ويحوّل أخطاء الوصول والتعارض إلى حالات الواجهة. يحدد `src/services/portal-http.ts` ربط عمليات البوابات، ويحدد `src/services/marketplace.ts` ربط فحص صورة السوق.
-- نتائج المطابقة والتسجيل والإذن والقرار وحالة تسليم الإشعار تأتي عبر الخدمات. تستمد الهوية ودرجة التشابه والنتيجة معناها من [مصادر المشروع](docs/sources/)، وتعرضها الواجهة وفق مصدرها.
-- الصور `public/media/ceramic.jpg` و`public/media/submission.jpg` عيّنتان مولّدتان للعرض. الرمز من الحزمة المعتمدة.
+## Quick start
 
-### إعداد HTTP
+1. Clone `https://github.com/MuathLoss/Athn.git`.
+2. Restore the required runtime assets into `ATHN_runtime/` at the repository root.
+3. Configure four local account passwords in `backend/.env` and install Python dependencies.
+4. Start FastAPI on port 8000, then Vite on port 5173 using the provided frontend environment template.
+5. Open `http://127.0.0.1:5173`.
 
-اضبط القيم في `.env.local` وفق `.env.example` قبل تشغيل Vite أو البناء. يفعّل `VITE_IDHN_API_BASE_URL` وضع HTTP في التطوير أيضًا. يستخدم بناء الإنتاج HTTP فقط، ويعرض فقدان الخدمة بوضوح عند غياب ربطها.
+See [complete setup instructions](docs/SETUP.md), including CPU/GPU installation, seed data, account identifiers and smoke tests.
 
-- يستخدم النموذج `AuthService.signIn({ identifier, password })`. اضبط `VITE_IDHN_API_BASE_URL` وخريطة المسارات، بما فيها عملية `signIn` من نوع POST إلى نقطة المصادقة الفعلية. يرسل المحوّل البيانات بصيغة JSON. بعد نجاح الطلب وإنشاء جلسة الخادم، يقرأ المحوّل `session` ويتوقع `id` و`name` و`role` بقيمة `seller` أو `rights_holder` أو `reviewer`. تعني HTTP 401 من عملية `signIn` أن بيانات الدخول غير صحيحة. استخدم `signOut` لإنهاء الجلسة على الخادم.
-- `VITE_IDHN_API_ROUTES` خريطة JSON من اسم العملية إلى `path` و`method` الاختياري. العمليات هي `session` و`signIn` و`signOut` و`overview` و`works` و`work` و`activity` و`verification` و`notifications` و`markAsRead` و`reviewQueue` و`reviewCase` و`prepareDecision` و`submitDecision`. يمكن تضمين `{id}` في المسار، وترسل المرشحات في الاستعلام. افصل تحويلات استجابات النظام الحقيقي داخل المحوّل. ترجع الحالة خيارات القرار في `available_decisions` وفق سياسة الخادم، وتُرسل النسخة المتوقعة عند التأكيد.
-- سطح البائع المستقل في `src/marketplace.tsx` ومساره `/marketplace/pre-publish`. يفتح من حساب البائع داخل السوق لإنشاء بيانات واجهة المنتج أو لتعديل عنوانه إذا أرسله المضيف. عند تهيئة `VITE_MARKETPLACE_SESSION_URL`، يقرأ المحوّل من بوابة السوق حالة `authenticated` وعنوان `productTitle` الاختياري. يستخدم `VITE_MARKETPLACE_LOGIN_URL` للعودة إلى مصادقة السوق عند انتهاء جلسته. في التضمين داخل سوق قائم يمكن للمضيف إنشاء الجلسة قبل فتح الصفحة.
-- `VITE_MARKETPLACE_ANALYZE_URL` عنوان بوابة السوق الموثقة. في `src/services/marketplace.ts` ترسل الواجهة `image` بصيغة multipart مع الجلسة. تستخرج البوابة هوية البائع الموثوقة من الجلسة، ثم تكيّف الطلب مع عقد التحليل الفعلي مثل `POST /analyze`. تعرض الواجهة القرار الوارد. عند السماح يظهر رابط `VITE_MARKETPLACE_PUBLISH_URL` إن ضُبط. يتحقق السوق من القرار مرة أخرى عند النشر ويحفظ المنتج في أنظمته.
-- وفّر جلسة صالحة لطلبات HTTP الموثقة. يحتاج الربط عبر نطاق مختلف إلى إعداد CORS مع بيانات الاعتماد على الخادم. يعتمد تكامل السجل والإشعارات والتدقيق على الخادم الفعلي.
+## Research results
 
-## مراجع التصميم وأصول العرض
+The research corpus contains 55,000 images: 5,000 reference photographs, 5,000 same-product candidates, 20,000 unrelated candidates and 25,000 synthetic manipulations. The held-out manipulated-image benchmark contains 15,000 queries.
 
-- المدخل يستخدم عنوانًا تحريريًا وصورة منتج محورية. [Awwwards · Waka](https://assets.awwwards.com/awards/gallery/2020/09/live-presentation-jonas-bruno.pdf)
-- تعرض بوابة صاحب الحق صفوفًا قابلة للمسح البصري بأولوية للمحتوى. [Linear · UI redesign](https://linear.app/now/how-we-redesigned-the-linear-ui)
-- يربط مسار المراجع معاينة الأدلة بتسلسل الحالة ثم الإجراء. [Linear · Triage](https://linear.app/docs/triage) · [Sentry · Improved Breadcrumbs on Issues](https://sentry.io/changelog/improved-breadcrumbs-on-issues/)
+| Metric | Held-out manipulated queries |
+| --- | ---: |
+| Top-1 retrieval | 94.66% |
+| Top-3 retrieval | 97.33% |
+| Top-5 retrieval | 97.99% |
+| Flagged for review or hold | 94.65% |
+| Correct source identified and flagged | 91.15% |
 
-أُنشئت العينتان باستخدام ImageGen المدمج.
+The [aggregate results CSV](research/results/final_performance.csv) reports results by manipulation type. Combined manipulations are harder than compression, rotation, overlay or cropping individually. Same-product and unrelated candidate sets contain possible duplicate photographs; their escalation rates must not be interpreted as verified false-positive rates. Independent negative testing is still required.
 
-- `ceramic.jpg` — “A premium realistic product photograph for a demo visual-rights registry. One matte cobalt-blue sculptural ceramic vase with narrow neck, soft off-white studio plinth, cool lavender gray backdrop, directional side light and long shadow. Contemporary editorial product photography, restrained, landscape aspect ratio, centered subject with breathing room. No text or graphics.”
-- `submission.jpg` — “Edit this demo rights registry photo into a marketplace submission of the same photo: slightly cropped tighter, horizontally reframed and slightly warmer and brighter, preserve the unmistakable same blue vase, same shape and original photo angle. Landscape. No text.”
+## Status
+
+The local demonstration exercised dynamic registration, authorized and unauthorized seller decisions, notifications, reviewer evidence, human decision and audit persistence, and a tested role restriction. The reorganized repository includes configuration and security changes that require a fresh local smoke test before deployment. Production security, comprehensive evaluation and a real registry/marketplace integration remain outside this prototype.
+
+## Documentation
+
+- [Setup and recovery](docs/SETUP.md)
+- [Architecture and API](docs/ARCHITECTURE.md)
+- [Dataset and research](docs/DATASET.md)
+- [Original frontend design references](docs/ui-inspiration.md)
+
+## License
+
+All Rights Reserved for newly contributed material, subject to prior grants and third-party licenses. See [LICENSE](LICENSE) and the [legacy MIT notice](LICENSES/LEGACY-MIT.txt).
